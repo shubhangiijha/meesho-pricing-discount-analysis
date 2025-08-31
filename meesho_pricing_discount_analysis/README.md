@@ -162,21 +162,3 @@ For Postgres/BigQuery support, ensure extra dependencies are installed (see `req
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Made for BA Portfolios](https://img.shields.io/badge/Use-BA%20Portfolio-brightgreen)
 
-**Deploy to Streamlit Cloud:**  
-1) Create a public GitHub repo and push this folder.  
-2) In Streamlit Cloud → New app → pick your repo → set main file `app.py` → deploy.
-
-## 15) GitHub Quick Push
-```bash
-git init
-git checkout -b main
-git add .
-git commit -m "Initial commit: Pricing & Discount Effectiveness Analysis"
-git remote add origin https://github.com/ankiit008/meesho-pricing-discount-analysis.git
-git push -u origin main
-```
-
-(Replace the repo URL with your chosen repository name if different.)
-
-## 16) Preview
-See `assets/preview_banner.png`. For a live GIF, record your screen while interacting with filters and charts (e.g., with ScreenToGif or OBS) and add it as `assets/preview.gif`.
