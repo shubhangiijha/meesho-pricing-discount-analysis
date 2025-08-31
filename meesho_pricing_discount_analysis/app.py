@@ -1,3 +1,8 @@
+from pathlib import Path
+
+# Base directory (the folder where app.py is located)
+APP_DIR = Path(__file__).parent
+
 import os
 import streamlit as st
 import pandas as pd
@@ -23,18 +28,23 @@ st.set_page_config(page_title="Pricing & Discount Effectiveness", layout="wide")
 st.title("💸 Pricing & Discount Effectiveness Analysis")
 st.caption("Analyze discount impact on GMV, conversion, and ROI. Supports CSV, SQLite, Postgres, and BigQuery.")
 
+
+
 @st.cache_data
 def load_sample_csv(name):
-    return pd.read_csv(name)
+    # Read CSVs from same folder as app.py
+    return pd.read_csv(APP_DIR / name)
 
 @st.cache_data
 def load_sqlite(db_path):
-    con = sqlite3.connect(db_path)
+    # Read SQLite DB from same folder as app.py
+    con = sqlite3.connect(APP_DIR / db_path)
     df_t = pd.read_sql_query("SELECT * FROM transactions", con)
     df_c = pd.read_sql_query("SELECT * FROM campaigns", con)
     df_e = pd.read_sql_query("SELECT * FROM exposures", con)
     con.close()
     return df_t, df_c, df_e
+
 
 @st.cache_data(ttl=600)
 def load_postgres(db_url):
