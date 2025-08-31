@@ -1,0 +1,51 @@
+# Import into Superset: Settings → Import (choose ZIP/YAML)
+version: 1.0.0
+databases:
+  - database_name: Meesho Pricing (Postgres)
+    sqlalchemy_uri: postgresql+psycopg2://user:pass@localhost:5432/meesho_pricing
+datasets:
+  - table_name: transactions
+    database: Meesho Pricing (Postgres)
+    schema: public
+  - table_name: campaigns
+    database: Meesho Pricing (Postgres)
+    schema: public
+  - table_name: exposures
+    database: Meesho Pricing (Postgres)
+    schema: public
+dashboards:
+  - dashboard_title: Pricing & Discount Effectiveness
+    description: ROI proxy by discount bracket, GMV by category, campaign overview.
+    position:
+      CHART-ROI-BRACKET:
+        type: CHART
+        meta: { width: 8, height: 12 }
+      CHART-GMV-CATEGORY:
+        type: CHART
+        meta: { width: 8, height: 12 }
+      CHART-CAMPAIGN-GMV:
+        type: CHART
+        meta: { width: 8, height: 12 }
+    charts:
+      - slice_name: ROI proxy by Discount Bracket
+        viz_type: bar
+        params:
+          datasource: transactions
+          metrics:
+            - expressionType: SQL
+              label: roi_proxy
+              sqlExpression: "(AVG(final_price) - AVG(original_price - final_price)) / NULLIF(AVG(original_price - final_price),0)"
+          groupby: ["CASE WHEN discount_percent=0 THEN '0%' WHEN discount_percent BETWEEN 1 AND 10 THEN '1-10%' WHEN discount_percent BETWEEN 11 AND 20 THEN '11-20%' WHEN discount_percent BETWEEN 21 AND 30 THEN '21-30%' ELSE '31-50%' END"]
+      - slice_name: GMV by Category (11–20%)
+        viz_type: bar
+        params:
+          datasource: transactions
+          metrics: ["SUM(final_price)"]
+          where: "discount_percent BETWEEN 11 AND 20"
+          groupby: ["category"]
+      - slice_name: Campaign GMV
+        viz_type: bar
+        params:
+          datasource: transactions
+          metrics: ["SUM(final_price)"]
+          groupby: ["campaign_id"]

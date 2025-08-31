@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "name": "Pricing & Discount Effectiveness",
+  "description": "Cards for ROI proxy, GMV by category, campaign overview",
+  "tables": [
+    "transactions",
+    "campaigns",
+    "exposures"
+  ],
+  "cards": [
+    {
+      "name": "ROI proxy by Discount Bracket",
+      "dataset_query": {
+        "type": "native",
+        "native": {
+          "query": "\nSELECT\n  CASE\n    WHEN discount_percent=0 THEN '0%'\n    WHEN discount_percent BETWEEN 1 AND 10 THEN '1-10%'\n    WHEN discount_percent BETWEEN 11 AND 20 THEN '11-20%'\n    WHEN discount_percent BETWEEN 21 AND 30 THEN '21-30%'\n    ELSE '31-50%'\n  END AS bracket,\n  COUNT(*) AS orders,\n  AVG(final_price) AS gmv_per_order,\n  AVG(original_price - final_price) AS discount_per_order,\n  (AVG(final_price) - AVG(original_price - final_price))\n    / NULLIF(AVG(original_price - final_price),0) AS roi_proxy\nFROM transactions\nGROUP BY 1\nORDER BY 1;\n",
+          "template-tags": {}
+        },
+        "database": 1
+      },
+      "display": "bar"
+    },
+    {
+      "name": "GMV by Category (11\u201320%)",
+      "dataset_query": {
+        "type": "native",
+        "native": {
+          "query": "\nSELECT category, SUM(final_price) AS gmv\nFROM transactions\nWHERE discount_percent BETWEEN 11 AND 20\nGROUP BY category\nORDER BY gmv DESC;\n"
+        },
+        "database": 1
+      },
+      "display": "bar"
+    },
+    {
+      "name": "Campaign GMV",
+      "dataset_query": {
+        "type": "native",
+        "native": {
+          "query": "\nSELECT campaign_id, SUM(final_price) AS gmv, COUNT(*) AS orders\nFROM transactions\nGROUP BY campaign_id\nORDER BY gmv DESC;\n"
+        },
+        "database": 1
+      },
+      "display": "bar"
+    }
+  ]
+}

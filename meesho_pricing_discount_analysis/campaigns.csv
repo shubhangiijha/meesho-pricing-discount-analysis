@@ -1,0 +1,13 @@
+campaign_id,campaign_type,start_date,end_date,name
+1,Clearance,2025-03-28,2025-04-05,1-Category Push-Mar2025
+2,Referral,2024-09-10,2024-09-26,2-Flash Sale-Sep2024
+3,New User,2025-05-12,2025-05-25,3-Festival-May2025
+4,New User,2025-02-11,2025-02-19,4-Category Push-Feb2025
+5,Festival,2024-02-24,2024-03-05,5-Clearance-Feb2024
+6,Category Push,2025-07-18,2025-08-01,6-Payday-Jul2025
+7,Payday,2025-03-13,2025-03-31,7-Flash Sale-Mar2025
+8,Festival,2025-03-28,2025-04-14,8-Festival-Mar2025
+9,Referral,2024-03-15,2024-03-29,9-New User-Mar2024
+10,Flash Sale,2024-09-15,2024-10-04,10-Clearance-Sep2024
+11,Payday,2024-08-02,2024-08-16,11-Payday-Aug2024
+12,Flash Sale,2025-06-25,2025-07-04,12-New User-Jun2025
